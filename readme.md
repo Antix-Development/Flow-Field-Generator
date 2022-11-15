@@ -25,8 +25,6 @@ Please open an issue or contact me (antix.development@gmail.com) if you have que
 
 <br>
 
-# 
-
 ## Properties
 The `FlowFieldGenerator` class encapsulates the following properties:
 
@@ -51,8 +49,6 @@ The `FlowFieldGenerator` class encapsulates the following properties:
 
 
 <br>
-
-#
 
 ## Methods
 The `FlowFieldGenerator` class encapsulates the following methods:
