@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+  </head>
+  <body style="font-family: monospace; font-size: 14px; color: #eee; background-color: #111; padding: 0; margin: 4px 4px;">
+  </body>
+  <script src="grid2d.js"></script>
+  <script src="node.js"></script>
+  <script src="flowfieldgenerator.js"></script>
+  <script>
+
+    let 
+    GRID_WIDTH = 1000, // Grid dimensions
+    GRID_HEIGHT = 1000,
+
+    iterations = 10, // How many times to run any test
+
+    totalMs, startMs, elapsedMs,
+
+    x = Math.floor(GRID_WIDTH / 2),
+    y = Math.floor(GRID_HEIGHT / 2),
+
+    ffg = new FlowFieldGenerator();
+
+    ffg.graphFromArray(new Grid2D().newGrid(GRID_WIDTH, GRID_HEIGHT));
+
+    // Run the test with the given parameters
+    let test = (enableDiagonals, t) => {
+      totalMs = 0;
+      ffg.enableDiagonalMovement(enableDiagonals);
+      
+      console.log(`\nTesting ${t} directional flow-field generation (${iterations} iterations)`);
+
+      for (let i = 0; i < iterations; i++) {
+        startMs = performance.now();
+        ffg.buildFlowField(x, y);
+        elapsedMs = performance.now() - startMs;
+        totalMs += elapsedMs;
+        console.log(` ${i + 1} ${elapsedMs}ms`);
+     }
+
+     console.log(`total: ${totalMs}\naverage: ${totalMs / iterations}ms`);
+    }
+
+    // Test 4 directional query
+    test(false, '4');
+
+    // Test 8 directional query
+    test(true, '8');
+
+  </script>
+
+</html>

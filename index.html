@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flow-Field Generator</title>
+  </head>
+
+  <body oncontextmenu="return false;" style="text-align: center; font-family: monospace; font-size: 14px; color: #eee; background-color: #111; padding: 0; margin: 4px 4px; user-select: none;">
+    <p>DRAG GREEN CELL TO MOVE TARGET. DRAG ORANGE CELL TO MOVE OTHER. LEFT CLICK AND DRAG TO TOGGLE CELL SOLIDITY.</p>
+    <p>
+      <input onchange="toggleDiagonalMovement(this);" type="checkbox" id="togglediagonals" name="togglediagonals">
+      <label for="togglediagonals">TOGGLE DIAGONAL MOVEMENT</label>
+    </p>
+  </body>
+  <script src="grid2d.js"></script>
+  <script src="util.js"></script>
+  <script src="node.js"></script>
+  <script src="flowfieldgenerator.js"></script>
+  <script>
+
+    let 
+    GRID_WIDTH = 40, // Grid dimensions
+    GRID_HEIGHT = 25,
+    
+    target, // Target coordinates (green cell)
+    other, // Other coordinates (orange cell)
+    
+    ffg, // `FlowFieldGenerator` instance
+
+    graph; // Graph
+
+    setupDisplayAndInteractivity();
+    
+    // Initialize flow-field generator
+    ffg = new FlowFieldGenerator();
+    ffg.enableDiagonalMovement(false);
+    graph = ffg.graphFromArray(new Grid2D().newGrid(GRID_WIDTH, GRID_HEIGHT), true);
+
+    // Initialize the target node
+    target = {x: floor(GRID_WIDTH / 2), y: floor(GRID_HEIGHT / 2)}; // Place the target roughly in the middle of the grid
+    graph[target.y][target.x].value = 2;
+
+    // Initialize the target node
+    other = {x: floor(GRID_WIDTH / 4), y: floor(GRID_HEIGHT / 4)}; // Place the target roughly in the middle of the top quadrant of the grid
+    graph[other.y][other.x].value = 3;
+
+    ffg.buildFlowField(target.x, target.y);
+
+    drawNodes();
+
+  </script>
+
+</html>
